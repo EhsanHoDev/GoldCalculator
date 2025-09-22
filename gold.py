@@ -4,6 +4,7 @@ import os
 import sys
 from datetime import datetime
 from decouple import config
+from tabulate import tabulate
 
 
 def website_data():
@@ -252,8 +253,7 @@ def main():
             }
         
         print("\n"+"="*25+"\n")
-        for num, op in enumerate(options.keys()):
-            print(num+1, op)
+        print(tabulate(enumerate(options.keys(), start=1) , headers=["No", "Option"], tablefmt="pretty", colalign=("left","left")))
         print("\n"+"="*25+"\n")
 
         choice = get_digit_input()
