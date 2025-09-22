@@ -15,16 +15,6 @@ def website_data():
     return soup
 
 
-def clear():
-    
-    if sys.platform.startswith("win"):
-        os.system("cls")
-    else:
-        os.system("clear")
-
-    return "\nScreen cleared."
-
-
 def get_digit_input():
 
     while True:
@@ -56,6 +46,16 @@ def get_digit_input():
     return choice
 
 
+def clear():
+    
+    if sys.platform.startswith("win"):
+        os.system("cls")
+    else:
+        os.system("clear")
+
+    return "\nScreen cleared."
+
+
 def help():
 
     output = "\nHow to use this CLI Tool:\n\n" \
@@ -82,7 +82,7 @@ def send_to_bot(msg):
             continue
     
     for chat_id in chat_ids:
-        post_url = (f"https://api.telegram.org/bot{token}/SendMessage?cha*t_id={chat_id}&text=" + str(msg))
+        post_url = (f"https://api.telegram.org/bot{token}/SendMessage?chat_id={chat_id}&text=" + str(msg))
 
         payload = {"UrlBox": post_url,
                     "AgentList":"Mozilla Firefox",
@@ -95,20 +95,6 @@ def send_to_bot(msg):
         print(req)
 
     return "Successfully sent to bot."
-
-
-def carat_convertor():
-
-    current_gold_weight = float(input("Enter the gold weight in gr: "))
-    current_gold_carat = float(input("Enter the current gold carat(0-24K or 0-1000 PerMille): "))
-    target_gold_carat = float(input("Enter the target gold carat(0-24 or 0-1000): "))
-
-    try:
-        target_gold_weight = ((current_gold_carat / target_gold_carat) * current_gold_weight)
-        return "\n"+f"The target will be {target_gold_weight:.3f}gr, {target_gold_carat} Gold."
-    except:
-        print("\nTarget gold carat cannot be zero!\nTry again!\n")
-        return carat_convertor()
 
 
 def hobab_seke():
@@ -199,7 +185,7 @@ def buy_calc():
     sud = float(input("Enter the Sud persentage: "))
 
     total_price_per_gr = ((geram18_price * (1 + (ojrat/100))) * (1 + (sud/100)))
-    tax = ((geram18_price * (ojrat/100)) + ((geram18_price * (1 + (ojrat/100))) * (sud/100))) * 0.1
+    tax = ((total_price_per_gr - geram18_price) * 0.1) * gold_weight
     total_price = (total_price_per_gr * gold_weight) + tax
 
     total = f"The gold price is {int(total_price):_} R for buy."
@@ -233,6 +219,20 @@ def sell_calc():
     output = "\n" + str(today) + "\n\n" + total + "\n" + geram18
 
     return output
+
+
+def carat_convertor():
+
+    current_gold_weight = float(input("Enter the gold weight in gr: "))
+    current_gold_carat = float(input("Enter the current gold carat(0-24K or 0-1000 PerMille): "))
+    target_gold_carat = float(input("Enter the target gold carat(0-24 or 0-1000): "))
+
+    try:
+        target_gold_weight = ((current_gold_carat / target_gold_carat) * current_gold_weight)
+        return "\n"+f"The target will be {target_gold_weight:.3f}gr, {target_gold_carat} Gold."
+    except:
+        print("\nTarget gold carat cannot be zero!\nTry again!\n")
+        return carat_convertor()
 
 
 def main():
